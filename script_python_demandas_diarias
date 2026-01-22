@@ -1,0 +1,7 @@
+Scripts em Python para automação de tarefas repetitivas e manipulação de dados.
+
+pip install pandas openpyxl
+
+import pandas as pd
+import os
+
