@@ -1,0 +1,59 @@
+Script em Python para automatizar leitura, padronização e tratamento de arquivos Excel e CSV, aplicando regras de negócio, validações e geração automática de relatórios.
+
+## vários arquivos com colunas diferentes
+
+colunas_padrao = ["ID", "NOME", "DATA", "VALOR"]
+df = df.reindex(columns=colunas_padrao)
+
+## Unir vários arquivos automaticamente
+
+pasta = "arquivos"
+dfs = []
+
+for arquivo in os.listdir(pasta):
+    if arquivo.endswith(".csv"):
+        temp = pd.read_csv(f"{pasta}/{arquivo}", sep=";")
+        dfs.append(temp)
+
+df_final = pd.concat(dfs, ignore_index=True)
+
+## Lógicas condicionais
+df["STATUS"] = df["VALOR"].apply(
+    lambda x: "ALTO" if x > 1000 else "NORMAL"
+)
+
+## Condições multiplas
+
+def classificar(valor):
+    if valor > 2000:
+        return "CRÍTICO"
+    elif valor > 1000:
+        return "ALERTA"
+    else:
+        return "OK"
+
+df["CLASSIFICACAO"] = df["VALOR"].apply(classificar)
+
+
+Laços de repetição (for / while)
+
+for index, row in df.iterrows():
+    print(row["NOME"], row["VALOR"])
+
+## Loop para gerar arquivos automaticamente
+
+for mes in df["MES"].unique():
+    df_mes = df[df["MES"] == mes]
+    df_mes.to_excel(f"relatorio_{mes}.xlsx", index=False)
+
+## Automação completa (excel → tratamento → saída)
+df = pd.read_excel("entrada.xlsx")
+
+df.columns = df.columns.str.upper()
+df["VALOR"] = df["VALOR"].fillna(0)
+
+df["STATUS"] = df["VALOR"].apply(
+    lambda x: "APROVADO" if x >= 500 else "REPROVADO"
+)
+
+df.to_excel("saida_tratada.xlsx", index=False)
