@@ -1,0 +1,4 @@
+## Leitura e tratamento de arquivos Excel / CSV
+
+df = pd.read_excel("dados.xlsx")
+print(df.head())
