@@ -1,0 +1,4 @@
+df.columns = df.columns.str.upper()      # Cabeçalhos em maiúsculo
+df = df.dropna()                          # Remove linhas vazias
+df["VALOR"] = df["VALOR"].fillna(0)       # Preenche nulos
+
